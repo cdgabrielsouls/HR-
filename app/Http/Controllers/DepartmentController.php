@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Employee;
+use Illuminate\Http\Request;
+use App\Models\Department;
+
+class DepartmentController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Department::query();
+
+        if ($request->filled('search')) {
+            $query->where('department_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('department_code', 'like', '%' . $request->search . '%');
+        }
+
+        $departments = $query->get();
+
+        return view('departments.index', compact('departments'));
+    }
+
+
+    public function show($slug, Request $request)
+    {
+        $map = [
+            'business-intelligence' => 'Business Intelligence',
+            'finance' => 'Finance',
+            'human-resources' => 'Human Resources',
+            'it' => 'IT',
+            'inventory' => 'Inventory Management',
+            'ecommerce' => 'Electronic Commerce',
+        ];
+
+        $departmentName = $map[$slug] ?? null;
+
+        if (!$departmentName) {
+            abort(404);
+        }
+
+        $query = Employee::where('department', $departmentName);
+
+        // Search by employee ID or name
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('employee_id', 'like', '%' . $search . '%')
+                  ->orWhere('first_name', 'like', '%' . $search . '%')
+                  ->orWhere('last_name', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Sorting (matches the sort dropdown in the view)
+        switch ($request->input('sort')) {
+            case 'name_asc':
+                $query->orderBy('first_name', 'asc')->orderBy('last_name', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('first_name', 'desc')->orderBy('last_name', 'desc');
+                break;
+            case 'id_asc':
+                $query->orderBy('id', 'asc');
+                break;
+            case 'id_desc':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'position_asc':
+                $query->orderBy('position', 'asc');
+                break;
+            case 'position_desc':
+                $query->orderBy('position', 'desc');
+                break;
+            case 'newest':
+                $query->orderBy('hire_date', 'desc');
+                break;
+            case 'oldest':
+                $query->orderBy('hire_date', 'asc');
+                break;
+            default:
+                $query->orderBy('id', 'asc');
+                break;
+        }
+
+        $departments = $query->get();
+
+        return view('departments.show', compact(
+            'departments',
+            'departmentName'
+        ));
+    }
+}
