@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+        * { font-family: "Inter", sans-serif; }
+
+        /* Kept custom: things Tailwind utilities can't express cleanly */
+        .id-card-front-bg {
+            background: linear-gradient(180deg, #0B1E3D 0%, #0d4fde 180%);
+        }
+        .id-card-position-bg {
+            background: linear-gradient(180deg, #0B1E3D 0%, #0D4FDE 180%);
+        }
+        .inside-select {
+            text-align-last: center;
+        }
+        .inside-select option {
+            background: #0B1E3D;
+            color: #FFFFFF;
+        }
+        .inside-select option[value=""] { color: #8FA6D8; }
+        .inside-select:invalid { color: #8FA6D8; }
+        .inside-select:valid { color: #FFFFFF; }
+    </style>
+</head>
+
+<body class="m-0 p-0 bg-[#18386d] text-white">
+
+    <!-- =====================================================
+         TOP NAVBAR
+    ====================================================== -->
+    <header class="w-full h-[150px] bg-[#132B52] flex items-center justify-between pl-[1px] pr-[5px] border-b border-white/5 shadow-[0_1px_0_rgba(255,255,255,.03)_inset] sticky top-0 z-[1000]">
+ 
+        <!-- Left -->
+        <div class="flex items-center gap-3">
+            <img src="{{ asset('images/logo.png') }}" class="h-[86px] w-auto object-contain block" alt="Header Logo">
+        </div>
+ 
+        <div class="flex items-center gap-7">
+            <nav class="flex items-center gap-px">
+ 
+                <div class="relative group">
+                    <a href="/dashboard" class="text-white no-underline text-xl py-2.5 px-[18px] flex items-center gap-2 rounded-full transition-all duration-250 hover:text-[#66A6FF] hover:bg-[#1B3A6B] hover:-translate-y-px hover:font-bold active:scale-[.97]">
+                        Dashboard
+                    </a>
+                </div>
+ 
+                <div class="relative group">
+                    <a href="#" class="text-white no-underline text-xl py-2.5 px-[18px] flex items-center gap-2 rounded-full transition-all duration-250 hover:text-[#66A6FF] hover:bg-[#1B3A6B] hover:-translate-y-px hover:font-bold active:scale-[.97]">
+                        Workforce
+                        <svg class="w-3.5 h-3.5 opacity-80 transition-transform duration-300 origin-center group-hover:rotate-180 group-hover:opacity-100" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+ 
+                    <div class="absolute top-[120%] left-1/2 -translate-x-1/2 translate-y-2.5 w-[220px] bg-[#132B52] rounded-[18px] shadow-[0_20px_45px_rgba(0,0,0,.25),inset_0_1px_0_rgba(21,21,21,.7)] p-2.5 opacity-0 invisible transition-all duration-300 z-[999] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                        <a href="{{ route('employees.index') }}" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Employee List</a>
+                        <a href="{{ route('departments.index') }}" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Department List</a>
+                    </div>
+                </div>
+ 
+                <div class="relative group">
+                    <a href="{{ route('onboarding.step1') }}" class="text-white no-underline text-xl py-2.5 px-[18px] flex items-center gap-2 rounded-full transition-all duration-250 hover:text-[#66A6FF] hover:bg-[#1B3A6B] hover:-translate-y-px hover:font-bold active:scale-[.97]">
+                        Employee Onboarding
+                        
+                    </a>
+                    
+                </div>
+ 
+                <div class="relative group">
+                    <a href="#" class="text-white no-underline text-xl py-2.5 px-[18px] flex items-center gap-2 rounded-full transition-all duration-250 hover:text-[#66A6FF] hover:bg-[#1B3A6B] hover:-translate-y-px hover:font-bold active:scale-[.97]">
+                        Reports and Analytics
+                        <svg class="w-3.5 h-3.5 opacity-80 transition-transform duration-300 origin-center group-hover:rotate-180 group-hover:opacity-100" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                    <div class="absolute top-[120%] left-1/2 -translate-x-1/2 translate-y-2.5 w-[220px] bg-[#132B52] rounded-[18px] shadow-[0_20px_45px_rgba(0,0,0,.25),inset_0_1px_0_rgba(21,21,21,.7)] p-2.5 opacity-0 invisible transition-all duration-300 z-[999] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                        <a href="/reports-analytics/attendance-overview" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Attendance Record</a>
+                        <a href="#" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Leave Record</a>
+                       
+                    </div>
+                </div>
+ 
+                <div class="relative group">
+                    <a href="#" class="text-white no-underline text-xl py-2.5 px-[18px] flex items-center gap-2 rounded-full transition-all duration-250 hover:text-[#66A6FF] hover:bg-[#1B3A6B] hover:-translate-y-px hover:font-bold active:scale-[.97]">
+                        Leave Management
+                    </a>
+                    <div class="absolute top-[120%] left-1/2 -translate-x-1/2 translate-y-2.5 w-[220px] bg-[#132B52] rounded-[18px] shadow-[0_20px_45px_rgba(0,0,0,.25),inset_0_1px_0_rgba(21,21,21,.7)] p-2.5 opacity-0 invisible transition-all duration-300 z-[999] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                        <a href="#" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Placeholder 1</a>
+                        <a href="#" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Placeholder 2</a>
+                        <a href="#" class="block no-underline text-[#C9DAF8] py-[11px] px-3.5 rounded-[10px] text-[13px] font-medium transition-all duration-200 hover:bg-[#f3f6fb] hover:text-[#2D7EFF]">Placeholder 3</a>
+                    </div>
+                </div>
+ 
+            </nav>
+ 
+            <div class="w-11 h-11 mr-[15px] rounded-full grid place-items-center bg-white/[.06] shadow-[inset_0_0_0_1px_rgba(255,255,255,.06)] " aria-label="Profile">
+                <svg class="w-10 h-10" viewBox="0 0 36 36" fill="none">
+                    <circle cx="18" cy="18" r="17" fill="white" opacity=".97"/>
+                    <circle cx="18" cy="13" r="5.2" fill="#223B63"/>
+                    <path d="M8.8 28.3C10.7 23.8 14.1 21.7 18 21.7C21.9 21.7 25.3 23.8 27.2 28.3" fill="#223B63"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         ID PREVIEW
+    ====================================================== -->
+    <div class="my-[30px] pt-10 pb-10 relative flex justify-center items-center">
+
+        <a href="{{ route('employees.index') }}" class="absolute top-[1px] left-[120px] inline-flex items-center gap-2 py-[9px] px-[30px] bg-[#0061FF20] text-white no-underline rounded-xl text-base font-normal shadow-[0_8px_20px_rgba(0,0,0,.25)] transition-all duration-250 hover:bg-[#0063FF10] hover:-translate-y-0.5 active:scale-[.97]">
+            ← EMPLOYEE LIST
+        </a>
+
+        <div class="w-full max-w-[108.1875rem] min-h-[45.375rem] relative mt-5 flex justify-center items-center rounded-[18px] overflow-hidden bg-[#0B1E3D] pb-[90px]">
+
+            <!-- BIG NEXORA BACKGROUND -->
+            <img src="{{ asset('images/Nexora_Logo_Transparent(1).png') }}"
+                 class="absolute w-[1325px] h-auto left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-5deg] opacity-[.0244] z-0 pointer-events-none"
+                 alt="">
+
+            <div class="flex justify-center items-center gap-[45px]" id="downloadArea">
+
+                <!-- FRONT -->
+                <div class="w-[268px] h-[452px] rounded-[1px] overflow-hidden relative id-card-front-bg text-white shadow-[0_15px_40px_rgba(0,0,0,.4),inset_0_0_0_1px_rgba(255,255,255,.05),inset_0_3px_0_rgba(255,255,255,.05)]">
+
+                    <div class="absolute -left-[10%] w-[120%] h-[110px] bg-[#1B396B] rounded-bl-[60%] rounded-br-[60%] z-[1]"></div>
+
+                    <!-- Background Logo -->
+                    <img src="{{ asset('images/Nexora_Logo_Transparent(1).png') }}"
+                         class="absolute w-[350px] h-auto left-1/2 top-[60%] -translate-x-1/2 -translate-y-1/2 rotate-[-8deg] opacity-[.03] pointer-events-none z-[1]"
+                         alt="">
+
+                    <div class="relative z-[5] flex justify-center pt-[5px]">
+                        <img src="{{ asset('images/logo.png') }}" class="w-[268px] pb-[2px]" alt="Nexora Logo">
+                    </div>
+
+                    <div class="relative z-[5] w-[120px] h-[120px] mx-auto -mt-[5px] mb-[18px] rounded-full overflow-hidden border-[10px] border-[#0B1E3D] shadow-[0_10px_25px_rgba(0,0,0,.35)]">
+                        @if($employee->profile_picture)
+                            <img src="{{ asset('profile_pictures/'.$employee->profile_picture) }}"
+                                 class="w-[110px] h-[110px] object-cover"
+                                 alt="Employee Picture">
+                        @else
+                            <img src="{{ asset('images/avatar-placeholder.png') }}"
+                                 class="w-[110px] h-[110px] object-cover bg-[lightblue]"
+                                 alt="">
+                        @endif
+                    </div>
+
+                    <div class="relative z-[5] flex flex-col items-center justify-center text-center pt-[10px] w-full mt-2 leading-[.90]">
+                        <span id="idFirstName" class="text-[1.25rem] font-light uppercase">
+                            {{ strtoupper(trim($employee->first_name )) }}
+                        </span>
+                        <strong id="idLastName" class="mt-[3px] text-[1.75rem] font-medium uppercase">
+                            {{ strtoupper($employee->last_name) }}
+                        </strong>
+                    </div>
+
+                    <div class="relative z-[5] w-[208px] h-[30px] py-[5px] px-[2px] text-[11.1px] mt-[10%] ml-[10.3%] flex flex-col items-center justify-center text-center rounded-[100px] id-card-position-bg shadow-[inset_1px_1px_2px_rgba(255,255,255,.45),3px_3px_8px_rgba(0,0,0,.22)]">
+                        {{ strtoupper($employee->position) }}
+                    </div>
+
+                    <div class="relative z-[5] w-[165px] h-6 py-[5px] px-[2px] text-[0.8125rem] font-light mt-[10%] ml-[38%]">
+                        {{ '2026' . str_pad($employee->id, 4, '0', STR_PAD_LEFT) }}
+                    </div>
+
+                </div>
+
+                <!-- BACK -->
+                <div class="w-[268px] h-[452px] relative overflow-hidden id-card-front-bg text-white shadow-[0_15px_40px_rgba(0,0,0,.4),inset_0_0_0_1px_rgba(255,255,255,.05),inset_0_3px_0_rgba(255,255,255,.05)] px-[9px] pt-[15px] pb-[28%] text-center">
+
+                    <!-- Background Logo -->
+                    <img src="{{ asset('images/Nexora_Logo_Transparent(1).png') }}"
+                         class="absolute w-[340px] h-auto left-1/2 top-[55%] -translate-x-1/2 -translate-y-1/2 rotate-[-8deg] opacity-[.03] pointer-events-none z-[1]"
+                         alt="">
+
+                    <h2 class="relative z-[5] text-[0.625rem]">COMPANY POLICY</h2>
+
+                    <p class="relative z-[5] text-[0.6875rem] px-[5px] pt-3 pb-[20%] font-light tracking-[.1px]">
+                        Property of Nexora. If found, please return to the Human
+                        Resources Department. This card is non-transferable and
+                        must be surrendered upon separation from the company.
+                    </p>
+
+                    <div class="relative z-[5] text-[0.8125rem] text-left px-[10px] pb-[30px] leading-[2.2]">
+                        <p>
+                            <span class="font-medium">Email:</span>
+                            <span class="font-extralight">{{ $employee->email ?? 'N/A' }}</span>
+                        </p>
+                        <p>
+                            <span class="font-medium">Phone:</span>
+                            <span class="font-extralight">{{ $employee->phone ?? 'N/A' }}</span>
+                        </p>
+                    </div>
+
+                    <div class="relative z-[5] flex justify-between gap-5 mt-[1px] px-5 py-10">
+                        <!-- Authorized Signature -->
+                        <div class="w-[48%] text-center">
+                            <div class="text-[0.6875rem] font-light text-white mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis">ADMIN</div>
+                            <div class="w-full h-[0.2px] bg-white mb-1.5"></div>
+                            <p class="text-[0.6875rem] tracking-[.5px] text-[#DCE8FF]">AUTHORIZED SIGNATURE</p>
+                        </div>
+
+                        <!-- Employee Signature -->
+                        <div class="w-[48%] text-center">
+                            <div class="text-[0.6875rem] font-light text-white mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                                {{ strtoupper($employee->first_name . ' ' . $employee->last_name) }}
+                            </div>
+                            <div class="w-full h-[0.2px] bg-white mb-1.5"></div>
+                            <p class="text-[0.6875rem] tracking-[.5px] text-[#DCE8FF]">EMPLOYEE SIGNATURE</p>
+                        </div>
+                    </div>
+
+                    <div class="relative z-[5] flex justify-center items-center pt-[7px]">
+                        <img src="{{ asset('images/logo.png') }}" class="w-[268px] h-auto opacity-95" alt="Nexora Logo">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- DOWNLOAD BUTTON -->
+            <div class="absolute bottom-[25px] left-1/2 -translate-x-1/2 pb-10">
+                <button type="button" id="downloadBtn"
+                    class="w-[218px] h-[61px] border-0 border-[0.1px] border-[#dcdcdc54] rounded-md bg-[#0061FF20] text-white text-[0.9375rem] font-normal tracking-[.3px] cursor-pointer shadow-[0_8px_20px_rgba(0,0,0,.25)] transition-all duration-250 hover:bg-[#0061FF10] hover:-translate-y-0.5 active:scale-[.97]">
+                    ↓ DOWNLOAD
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =====================================================
+         EDIT FORM
+    ====================================================== -->
+    <div class="w-full max-w-[108.1875rem] min-h-[45.375rem] ml-[90px] mr-10 mt-5 py-7 pr-2.5 pl-[60px] grid grid-cols-[68%_32%] gap-6 bg-[#122A58] rounded-[22px] shadow-[inset_5px_10px_18px_rgba(191,0,0,.03),inset_1px_0_1px_rgba(0,0,0,.20),0_18px_35px_rgba(0,0,0,.35)]">
+
+        <form action="{{ route('employees.update', $employee->id) }}" method="POST" enctype="multipart/form-data" class="contents">
+            @csrf
+            @method('PUT')
+
+            <div class="grid grid-cols-[70%_30%] gap-[30px] items-start col-span-2">
+
+                <!-- LEFT SIDE -->
+                <div class="pl-10">
+
+                    <!-- Profile Image -->
+                    <div>
+                        <h3 class="text-[13px] font-normal text-[#D7E4FF] tracking-[.5px] mb-[7px] uppercase">PROFILE IMAGE</h3>
+
+                        <div class="w-[100px] h-[100px] rounded-full bg-[#7FB3FF] flex justify-center items-center overflow-hidden">
+                            @if($employee->profile_picture)
+                                <img src="{{ asset('profile_pictures/'.$employee->profile_picture) }}"
+                                     alt="Profile" class="w-full h-full object-cover rounded-full">
+                            @else
+                                <i class="fa-solid fa-circle-user text-[120px] text-[#1C4176]"></i>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="flex items-end gap-2 mb-3.5 mt-6">
+                        <h3 class="text-[13px] font-light text-white uppercase whitespace-nowrap m-0">Employee Details</h3>
+
+                        <div class="flex gap-3.5 ml-[146px] w-full">
+                            <div class="relative w-[210.4px]">
+                                <label class="absolute top-[3px] left-4 text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Date Added</label>
+                                <input type="text" readonly value="{{ $employee->created_at->format('M d, Y') }}"
+                                    class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none cursor-not-allowed">
+                            </div>
+
+                            <div class="relative w-[210.4px]">
+                                <label class="absolute top-[3px] left-4 text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Status</label>
+                                <input type="text" readonly value="Active"
+                                    class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none cursor-not-allowed">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NAME ROW -->
+                    <div class="flex gap-[15px] mb-[15px]">
+
+                        <div class="relative w-[265px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">First Name</label>
+                            <input name="first_name" value="{{ old('first_name',$employee->first_name) }}"
+                                class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)] placeholder:text-[#8FA6D8]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-90">
+                                <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <div class="relative w-[265px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Middle Name</label>
+                            <input name="middle_name" value="{{ old('middle_name',$employee->middle_name) }}"
+                                class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)] placeholder:text-[#8FA6D8]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-90">
+                                <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+
+                        <div class="relative w-[265px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Last Name</label>
+                            <input name="last_name" value="{{ old('last_name',$employee->last_name) }}"
+                                class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)] placeholder:text-[#8FA6D8]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-90">
+                                <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Department / Position -->
+                    <div class="flex gap-[15px] mb-[15px]">
+
+                        <div class="relative w-[406px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Department</label>
+                            <select id="department" name="department" required
+                                class="inside-select w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)]">
+                                <option value="BUSINESS INTELLIGENCE" {{ $employee->department == 'BUSINESS INTELLIGENCE' ? 'selected' : '' }}>BUSINESS INTELLIGENCE</option>
+                                <option value="ELECTRONIC COMMERCE" {{ $employee->department == 'ELECTRONIC COMMERCE' ? 'selected' : '' }}>ELECTRONIC COMMERCE</option>
+                                <option value="FINANCE" {{ $employee->department == 'FINANCE' ? 'selected' : '' }}>FINANCE</option>
+                                <option value="HUMAN RESOURCES" {{ $employee->department == 'HUMAN RESOURCES' ? 'selected' : '' }}>HUMAN RESOURCES</option>
+                                <option value="INFORMATION TECHNOLOGY SERVICE MANAGEMENT" {{ $employee->department == 'INFORMATION TECHNOLOGY SERVICE MANAGEMENT' ? 'selected' : '' }}>INFORMATION TECHNOLOGY SERVICE MANAGEMENT</option>
+                                <option value="INVENTORY MANAGEMENT" {{ $employee->department == 'INVENTORY MANAGEMENT' ? 'selected' : '' }}>INVENTORY MANAGEMENT</option>
+                                <option value="ORDER MANAGEMENT" {{ $employee->department == 'ORDER MANAGEMENT' ? 'selected' : '' }}>ORDER MANAGEMENT</option>
+                                <option value="PROCUREMENT MANAGEMENT" {{ $employee->department == 'PROCUREMENT MANAGEMENT' ? 'selected' : '' }}>PROCUREMENT MANAGEMENT</option>
+                                <option value="PRODUCTION MANAGEMENT" {{ $employee->department == 'PRODUCTION MANAGEMENT' ? 'selected' : '' }}>PRODUCTION MANAGEMENT</option>
+                            </select>
+                        </div>
+
+                        <div class="relative w-[406px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Position</label>
+                            <select id="position" name="position" required data-current="{{ $employee->position }}"
+                                class="inside-select w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)]">
+                                <!-- populated dynamically based on the selected department -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Gender / Marital Status -->
+                 <div class="flex gap-[15px] mb-[15px]">
+
+                        <div class="relative w-[406px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Gender</label>
+                            <select name="gender"
+                                class="inside-select w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)]">
+                                <option value="Male" {{ $employee->gender == 'Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" {{ $employee->gender == 'Female' ? 'selected' : '' }}>Female</option>
+                                <option value="Prefer not to say" {{ $employee->gender == 'Prefer not to say' ? 'selected' : '' }}>Prefer not to say</option>
+                            </select>
+                        </div>
+
+                        <div class="relative w-[406px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Marital Status</label>
+                            <select name="marital_status"
+                                class="inside-select w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)]">
+                                <option value="Single" {{ $employee->marital_status == 'Single' ? 'selected' : '' }}>Single</option>
+                                <option value="Married" {{ $employee->marital_status == 'Married' ? 'selected' : '' }}>Married</option>
+                                <option value="Widowed" {{ $employee->marital_status == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+                                <option value="Separated" {{ $employee->marital_status == 'Separated' ? 'selected' : '' }}>Separated</option>
+                                <option value="Divorced" {{ $employee->marital_status == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Address -->
+                    <div class="mb-[15px]">
+                        <div class="relative w-[837px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Address</label>
+                            <textarea name="address"
+    class="w-full h-10 overflow-hidden box-border py-3 px-2.5 pt-4 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none resize-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)]">{{ old('address', $employee->address) }}</textarea>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute right-3 top-[18px] w-3.5 h-3.5 text-white opacity-90">
+                                <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details -->
+                    <div class="mb-[15px]">
+                        <h3 class="text-[13px] font-light text-white uppercase whitespace-nowrap mb-[15px] mt-[30px]">Contact Details</h3>
+
+                        <div class="relative w-[837px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Email Address</label>
+                            <input type="email" name="email" value="{{ old('email', $employee->email) }}"
+                                class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)] placeholder:text-[#8FA6D8]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white opacity-90">
+                                <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-[15px]">
+                        <div class="relative w-[837px] pr-[430px]">
+                            <label class="absolute top-[3px] left-[16.5px] text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Phone Number</label>
+                            <input type="text" name="phone" value="{{ old('phone', $employee->phone) }}"
+                                class="w-full h-10 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-white border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[11px] outline-none focus:border-[#5D8CFF] focus:shadow-[0_0_0_2px_rgba(93,140,255,.2)] placeholder:text-[#8FA6D8]">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE -->
+               <div class="flex flex-col gap-[15px] mt-[22%] w-[536px] -ml-[50%]">
+
+                    <h3 class="text-[13px] font-light text-white uppercase whitespace-nowrap">Supporting Documents</h3>
+
+                    <div class="relative w-[536px]">
+                        <label class="absolute top-[3px] left-2.5 text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">CV</label>
+                        <input type="file"
+                            class="w-[536px] h-8 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-[#8FA6D8] border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[13px] cursor-pointer file:hidden">
+                    </div>
+
+                    <div class="relative w-[536px]">
+                        <label class="absolute top-[3px] left-2.5 text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Birth Certificate</label>
+                        <input type="file"
+                            class="w-[536px] h-8 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-[#8FA6D8] border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[13px] cursor-pointer file:hidden">
+                    </div>
+
+                    <div class="relative w-[536px]">
+                        <label class="absolute top-[3px] left-2.5 text-[9px] font-semibold text-[#6B7280] pointer-events-none z-[2]">Contract</label>
+                        <input type="file"
+                            class="w-[536px] h-8 box-border py-3 px-2.5 pt-3 pr-[38px] bg-[#0B1E3D] text-[#8FA6D8] border-0 shadow-[0_4px_8px_rgba(0,0,0,.35)] rounded-[10px] text-[13px] cursor-pointer file:hidden">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+          <div class="col-span-2 flex justify-center items-center gap-[30px]">
+                <button type="submit"
+                    class="w-[218px] h-12 border border-[#5D8CFF] rounded-[10px] text-[15px] font-light cursor-pointer transition-all duration-250 shadow-[inset_0_2px_3px_rgba(61,49,49,.15),inset_0_8px_12px_rgba(255,255,255,.05)] bg-[#00FF0820] text-white hover:bg-[#00FF0850]">
+                    SAVE
+                </button>
+
+                <button type="button" id="undoBtn"
+                    class="w-[218px] h-12 border border-[#5D8CFF] rounded-[10px] text-[15px] font-light cursor-pointer transition-all duration-250 shadow-[inset_0_2px_3px_rgba(61,49,49,.15),inset_0_8px_12px_rgba(255,255,255,.05)] bg-[#0048FF20] text-white hover:bg-[#0048FF50]">
+                    UNDO
+                </button>
+
+                </form>
+
+               <form action="{{ route('employees.destroy', $employee->id) }}" method="POST" id="deleteForm">
+    @csrf
+    @method('DELETE')
+
+    <button type="submit"
+        class="w-[218px] h-12 border border-[#5D8CFF] rounded-[10px] text-[15px] font-light cursor-pointer transition-all duration-250 shadow-[inset_0_2px_3px_rgba(61,49,49,.15),inset_0_8px_12px_rgba(255,255,255,.05)] bg-[#FF000420] text-white hover:bg-[#C0392B95]">
+        DELETE
+    </button>
+</form>
+
+    </div>
+
+    <script>
+        // Positions available per department (kept in sync with the departments list above)
+        const positionsByDepartment = {
+            "BUSINESS INTELLIGENCE": ["BI MANAGER", "BI ANALYST", "DATA ANALYST", "BUSINESS ANALYST"],
+            "ELECTRONIC COMMERCE": ["E-COMMERCE MANAGER", "MARKETPLACE SPECIALIST", "PRODUCT LISTING SPECIALIST", "DIGITAL MERCHANDISER", "SEO SPECIALIST"],
+            "FINANCE": ["FINANCE MANAGER", "ACCOUNTANT", "FINANCIAL ANALYST"],
+            "HUMAN RESOURCES": ["HR MANAGER", "HR OFFICER", "RECRUITER", "HR ASSISTANT"],
+            "INFORMATION TECHNOLOGY SERVICE MANAGEMENT": ["IT MANAGER", "SYSTEM ADMINISTRATOR", "NETWORK ADMINISTRATOR", "IT SUPPORT SPECIALIST", "SOFTWARE DEVELOPER"],
+            "INVENTORY MANAGEMENT": ["INVENTORY MANAGER", "INVENTORY CONTROLLER", "WAREHOUSE STAFF", "INVENTORY ANALYST"],
+            "ORDER MANAGEMENT": ["SHIPPING COORDINATOR", "RETURNS SPECIALIST", "CUSTOMER SERVICE REPRESENTATIVE"],
+            "PROCUREMENT MANAGEMENT": ["PROCUREMENT MANAGER", "PURCHASING OFFICER", "VENDOR COORDINATOR"],
+            "PRODUCTION MANAGEMENT": ["PRODUCTION MANAGER", "PRODUCTION SUPERVISOR", "PRODUCTION PLANNER", "PRODUCTION STAFF"]
+        };
+
+        const departmentSelect = document.getElementById("department");
+        const positionSelect = document.getElementById("position");
+
+        function populatePositions(selectedDepartment, positionToSelect) {
+            const positions = positionsByDepartment[selectedDepartment] || [];
+
+            positionSelect.innerHTML = "";
+
+            if (!positions.length) {
+                positionSelect.appendChild(new Option("Select Department First", ""));
+                return;
+            }
+
+            positions.forEach(function (position) {
+                const option = new Option(position, position);
+                if (position === positionToSelect) {
+                    option.selected = true;
+                }
+                positionSelect.appendChild(option);
+            });
+        }
+
+        // On load, populate positions for the employee's current department
+        // and pre-select their current position.
+        populatePositions(departmentSelect.value, positionSelect.dataset.current);
+
+        // When the department changes, refresh the position list (no pre-selection).
+        departmentSelect.addEventListener("change", function () {
+            populatePositions(this.value, null);
+        });
+    </script>
+
+    <script>
+        document.getElementById("downloadBtn").addEventListener("click", async function () {
+
+            const { jsPDF } = window.jspdf;
+            const area = document.getElementById("downloadArea");
+
+            const canvas = await html2canvas(area, {
+                scale: 4,
+                useCORS: true,
+                backgroundColor: null
+            });
+
+            const imgData = canvas.toDataURL("image/png");
+
+            const pdf = new jsPDF({
+                orientation: "landscape",
+                unit: "mm",
+                format: "a4"
+            });
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+
+            const imgWidth = pageWidth - 20;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+
+            const y = (pageHeight - imgHeight) / 2;
+
+            pdf.addImage(imgData, "PNG", 10, y, imgWidth, imgHeight);
+            pdf.save("Employee_ID.pdf");
+        });
+
+        function adjustNameSize() {
+            const first = document.getElementById("idFirstName");
+            const last = document.getElementById("idLastName");
+
+            const firstLength = first.textContent.trim().length;
+            const lastLength = last.textContent.trim().length;
+
+            if (firstLength > 22) {
+                first.style.fontSize = "1.15rem";
+            } else if (firstLength > 16) {
+                first.style.fontSize = "1.25rem";
+            } else {
+                first.style.fontSize = "1.25rem";
+            }
+
+            if (lastLength > 15) {
+                last.style.fontSize = "1.75rem";
+            } else {
+                last.style.fontSize = "1.75rem";
+            }
+        }
+
+        adjustNameSize();
+
+        document.getElementById("undoBtn").addEventListener("click", function () {
+            if (confirm("Discard all unsaved changes?")) {
+                location.reload();
+            }
+        });
+
+         document.getElementById('deleteForm').addEventListener('submit', function(e) {
+    if (!confirm('Are you sure you want to delete this employee? This action cannot be undone.')) {
+        e.preventDefault();
+    }
+});s
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
